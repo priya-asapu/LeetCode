@@ -1,20 +1,19 @@
 class Solution:
     def nextGreaterElement(self, nums1: list[int], nums2: list[int]) -> list[int]:
+        stack = []
+        greater = {}
+
+        for num in nums2:
+            while stack and num > stack[-1]:
+                greater[stack.pop()] = num
+            stack.append(num)
+
         ans = []
 
-        for x in nums1:
-            found = False
-
-            for i in range(len(nums2)):
-                if nums2[i] == x:
-                    for j in range(i + 1, len(nums2)):
-                        if nums2[j] > x:
-                            ans.append(nums2[j])
-                            found = True
-                            break
-                    break
-
-            if not found:
+        for num in nums1:
+            if num in greater:
+                ans.append(greater[num])
+            else:
                 ans.append(-1)
 
         return ans
